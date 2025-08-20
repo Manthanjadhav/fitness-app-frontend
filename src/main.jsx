@@ -1,9 +1,15 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { AuthProvider } from "react-oauth2-code-pkce";
+import App from "./App";
+import authConfig from "./authConfig";
+import store from "./store/store";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <AuthProvider authConfig={authConfig}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </AuthProvider>
 );
