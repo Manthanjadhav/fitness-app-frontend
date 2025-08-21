@@ -117,7 +117,8 @@ const ActivityDetail = () => {
     );
   }
 
-  const config = activityConfig[activity.type] || activityConfig.RUNNING;
+  const config =
+    activityConfig[activity.activityType] || activityConfig.RUNNING;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -154,8 +155,8 @@ const ActivityDetail = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">
-                  {activity.type.charAt(0) +
-                    activity.type.slice(1).toLowerCase()}{" "}
+                  {activity.activityType.charAt(0) +
+                    activity.activityType.slice(1).toLowerCase()}{" "}
                   Session
                 </h1>
                 <p className="text-gray-600">

@@ -50,7 +50,12 @@ function App() {
   const dispatch = useDispatch();
   const [authReady, setAuthReady] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
+  useEffect(() => {
+    if (token) {
+      dispatch(setCredentials({ token, user: tokenData }));
+      setAuthReady(true);
+    }
+  }, [token, tokenData, dispatch]);
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
   };
