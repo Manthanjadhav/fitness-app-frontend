@@ -28,13 +28,60 @@ const ActivityDetail = () => {
       bgColor: "bg-blue-50",
       textColor: "text-blue-700",
     },
+    SWIMMING: {
+      icon: "🏊‍♂️",
+      color: "from-cyan-400 to-cyan-600",
+      bgColor: "bg-cyan-50",
+      textColor: "text-cyan-700",
+    },
+    WEIGHT_TRAINING: {
+      icon: "🏋️‍♂️",
+      color: "from-purple-400 to-purple-600",
+      bgColor: "bg-purple-50",
+      textColor: "text-purple-700",
+    },
+    YOGA: {
+      icon: "🧘‍♀️",
+      color: "from-pink-400 to-pink-600",
+      bgColor: "bg-pink-50",
+      textColor: "text-pink-700",
+    },
+    HIT: {
+      icon: "💪",
+      color: "from-orange-400 to-orange-600",
+      bgColor: "bg-orange-50",
+      textColor: "text-orange-700",
+    },
+    CARDIO: {
+      icon: "❤️",
+      color: "from-red-500 to-pink-500",
+      bgColor: "bg-red-50",
+      textColor: "text-red-700",
+    },
+    STRETCHING: {
+      icon: "🤸‍♀️",
+      color: "from-indigo-400 to-indigo-600",
+      bgColor: "bg-indigo-50",
+      textColor: "text-indigo-700",
+    },
+    OTHER: {
+      icon: "🏃‍♀️",
+      color: "from-gray-400 to-gray-600",
+      bgColor: "bg-gray-50",
+      textColor: "text-gray-700",
+    },
   };
 
   useEffect(() => {
     const fetchActivityDetail = async () => {
       setLoading(true);
       setError("");
+
       try {
+        // Wait for 10 seconds before making the API call
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+
+        // Make the API call after the delay
         const response = await getActivityDetail(id);
         setActivity(response.data);
       } catch (error) {
@@ -49,6 +96,146 @@ const ActivityDetail = () => {
     }
   }, [id]);
 
+  const formatActivityType = (type) => {
+    switch (type) {
+      case "WEIGHT_TRAINING":
+        return "Weight Training";
+      case "HIT":
+        return "HIIT";
+      default:
+        return type.charAt(0) + type.slice(1).toLowerCase();
+    }
+  };
+
+  const renderAdditionalMetrics = () => {
+    if (
+      !activity.additionalMetrics ||
+      Object.keys(activity.additionalMetrics).length === 0
+    ) {
+      return null;
+    }
+
+    return (
+      <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 animate-fade-in">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-r from-teal-400 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Additional Metrics
+            </h2>
+            <p className="text-gray-600 text-sm">Detailed performance data</p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {activity.additionalMetrics.distance && (
+            <div className="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl shadow-sm">
+              <div className="flex items-center justify-center mb-3">
+                <div className="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-3xl font-bold text-teal-700 mb-1">
+                {activity.additionalMetrics.distance}
+              </p>
+              <p className="text-teal-600 text-sm font-medium">Kilometers</p>
+            </div>
+          )}
+
+          {activity.additionalMetrics.heartRate && (
+            <div className="text-center p-6 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl shadow-sm">
+              <div className="flex items-center justify-center mb-3">
+                <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-3xl font-bold text-pink-700 mb-1">
+                {activity.additionalMetrics.heartRate}
+              </p>
+              <p className="text-pink-600 text-sm font-medium">BPM</p>
+            </div>
+          )}
+
+          {activity.additionalMetrics.location && (
+            <div className="text-center p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl shadow-sm">
+              <div className="flex items-center justify-center mb-3">
+                <div className="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-xl font-bold text-indigo-700 mb-1 px-2">
+                {activity.additionalMetrics.location}
+              </p>
+              <p className="text-indigo-600 text-sm font-medium">Location</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -58,6 +245,9 @@ const ActivityDetail = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
               <p className="text-gray-600 text-lg">
                 Loading activity details...
+              </p>
+              <p className="text-gray-500 text-sm mt-2">
+                This may take up to 10 seconds
               </p>
             </div>
           </div>
@@ -155,19 +345,26 @@ const ActivityDetail = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">
-                  {activity.activityType.charAt(0) +
-                    activity.activityType.slice(1).toLowerCase()}{" "}
-                  Session
+                  {formatActivityType(activity.activityType)} Session
                 </h1>
                 <p className="text-gray-600">
-                  {new Date(activity.createdAt).toLocaleDateString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {activity.startTime
+                    ? new Date(activity.startTime).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : new Date(activity.createdAt).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                 </p>
               </div>
             </div>
@@ -252,6 +449,9 @@ const ActivityDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Additional Metrics */}
+        {renderAdditionalMetrics()}
 
         {/* AI Recommendations */}
         {activity.recommendation && (
